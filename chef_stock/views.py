@@ -43,6 +43,7 @@ def nodes(request):
 
     nodes = ChefQueryManager.list_nodes()
     if cur_environment or cur_role or cur_name:
+        nodes = nodes[:50]
         chef_map = dict([(node_name,ChefQueryManager.get_node(node_name)) for node_name in nodes])
 
 
