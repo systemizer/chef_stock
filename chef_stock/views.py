@@ -39,19 +39,23 @@ def nodes(request):
 
     cur_environment = request.GET.get("cur_environment",None)
     cur_role = request.GET.get("cur_role",None)
+    cur_name = request.GET.get("cur_name",None)
 
     nodes = ChefQueryManager.list_nodes()
-    if cur_environment or cur_role:
+    if cur_environment or cur_role or cur_name:
         chef_map = dict([(node_name,ChefQueryManager.get_node(node_name)) for node_name in nodes])
 
 
+    if cur_name:
+        nodes = filter(lambda x: chef_map.get(x,None) and cur_name in chef_map.get(x)['name'],nodes)
     if cur_environment:
         nodes = filter(lambda x: chef_map.get(x,None) and chef_map.get(x)['chef_environment'] == cur_environment,nodes)
     if cur_role:
-        nodes = filter(lambda x: chef_map.get(x,None) and cur_role in chef_map.get(x)['automatic']['roles'],nodes)
+        nodes = filter(lambda x: chef_map.get(x,None) and chef_map.get(x)['automatic'].has_key("roles") and cur_role in chef_map.get(x)['automatic']['roles'],nodes)
 
     return render_to_response("nodes.html",
                               {'nodes':nodes,
+                               'cur_name':cur_name,
                                'cur_role':cur_role,
                                'cur_environment':cur_environment},
                               RequestContext(request))

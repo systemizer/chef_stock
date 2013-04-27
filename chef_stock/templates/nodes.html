@@ -10,7 +10,7 @@
 	<div class="control-group">
 	  <label class="control-label" for="inputPassword">Name</label>
 	  <div class="controls">
-	    <input name="name" placeholder="Name">
+	    <input name="cur_name" placeholder="Name" {% if cur_name %}value="{{cur_name}}"{% endif %}>
 	  </div>
 	</div>
 	<div class="control-group">
