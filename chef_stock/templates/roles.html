@@ -1,7 +1,21 @@
 {% extends "base.html" %}
+{% load magical %}
 
 {% block body %}
-{% for role in roles %}
-{{role}}
-{% endfor %}
+<div class="container">
+  <div class="row">
+    <div class="span4">
+      <div class="page-header">
+	<h3>Role Filters</h3>
+      </div>
+    </div>
+    <div class="span8">
+      <ul class="nav nav-tabs nav-stacked">
+	{% for role in roles %}
+	<li><a href="{% url 'role' role %}">{{role}}</a></li>
+	{% endfor %}      
+      </ul>
+    </div>
+  </div>
+</div>
 {% endblock %}

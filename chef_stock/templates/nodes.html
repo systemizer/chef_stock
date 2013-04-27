@@ -1,9 +1,18 @@
 {% extends "base.html" %}
 
 {% block body %}
-
-{% for node in nodes %}
-{{node}}
-{% endfor %}
-
+<div class="row">
+  <div class="span4">
+    <div class="page-header">
+      <h3>Node Filters</h3>
+    </div>
+  </div>
+  <div class="span8">
+    <ul class="nav nav-tabs nav-stacked">
+      {% for node in nodes %}
+      <li><a href="{% url 'node' node %}">{{node}}</a></li>
+      {% endfor %}      
+    </ul>
+  </div>
+</div>
 {% endblock %}

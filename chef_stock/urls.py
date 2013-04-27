@@ -1,9 +1,10 @@
 from django.conf.urls import patterns, include, url
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = patterns('chef_stock.views',
                        url(r'^$', 'index', name='index'),
                        url(r'^roles/$','roles',name='roles'),
-                       url(r'^roles/(?P<role_name>.*)/$','role',name='roles'),
+                       url(r'^roles/(?P<role_name>.*)/$','role',name='role'),
                        url(r'^nodes/$','nodes',name='nodes'),
                        url(r'^nodes/(?P<node_name>.*)/$','node',name='node'),
                        url(r'^databags/$','databags',name='databags'),
@@ -12,3 +13,5 @@ urlpatterns = patterns('chef_stock.views',
                        
                        
 )
+
+urlpatterns += staticfiles_urlpatterns()

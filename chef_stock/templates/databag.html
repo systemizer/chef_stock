@@ -1,5 +1,16 @@
 {% extends "base.html" %}
+{% load magical %}
 
 {% block body %}
-This is the databag page
+<div class="page-header">
+  <h1>DataBag <small>{{databag.name}}</small>
+</div>
+<table class="table" width="100%">
+  {% for key,value in databag.items %}
+  <tr>
+    <td>{{key}}</td>
+    <td>{{value|magical_template|safe}}</td>
+  </tr>
+  {% endfor %}
+</table>
 {% endblock %}

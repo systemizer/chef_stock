@@ -1,5 +1,16 @@
 {% extends "base.html" %}
+{% load magical %}
 
 {% block body %}
-This is the role page
+<div class="page-header">
+  <h1>Role <small>{{role.name}}</small>
+</div>
+<table class="table" width="100%">
+  {% for key,value in role.items %}
+  <tr>
+    <td>{{key}}</td>
+    <td>{{value|magical_template|safe}}</td>
+  </tr>
+  {% endfor %}
+</table>
 {% endblock %}

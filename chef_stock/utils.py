@@ -6,6 +6,17 @@ api = chef.autoconfigure()
 
 CACHE_TIMEOUT = 60*60
 
+
+def serialize_chef_object(chef_object):
+    result = {}
+    for key,value in chef_object.to_dict().items():
+        if hasattr(value,"to_dict"):
+            result[key] = serialize_chef_object(value)
+        else:
+            result[key] = value
+
+    return result
+
 class ChefQueryManager(object):
     _node_key = "NODE:::%s"
     _role_key = "ROLE:::%s"
@@ -20,7 +31,7 @@ class ChefQueryManager(object):
             node = chef.Node(node_name,api=api)
             if not node.exists:
                 return None
-            cache.set(cls._node_key % node_name,json.dumps(node.to_dict()),CACHE_TIMEOUT)
+            cache.set(cls._node_key % node_name,json.dumps(serialize_chef_object(node)),CACHE_TIMEOUT)
 
         return json.loads(cache.get(cls._node_key % node_name))
 
@@ -30,7 +41,7 @@ class ChefQueryManager(object):
             databag = chef.DataBag(databag_name,api=api)
             if not databag.exists:
                 return None
-            cache.set(cls._databag_key % databag_name,json.dumps(databag.to_dict()),CACHE_TIMEOUT)
+            cache.set(cls._databag_key % databag_name,json.dumps(serialize_chef_object(databag)),CACHE_TIMEOUT)
 
         return json.loads(cache.get(cls._databag_key % databag_name))
 
@@ -40,7 +51,7 @@ class ChefQueryManager(object):
             role = chef.Role(role_name,api=api)
             if not role.exists:
                 return None
-            cache.set(cls._role_key % role_name,json.dumps(role.to_dict()),CACHE_TIMEOUT)
+            cache.set(cls._role_key % role_name,json.dumps(serialize_chef_object(role)),CACHE_TIMEOUT)
 
         return json.loads(cache.get(cls._role_key % role_name))
 

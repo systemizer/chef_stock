@@ -1,7 +1,20 @@
 {% extends "base.html" %}
 
 {% block body %}
-{% for databag in databags %}
-{{databag}}
-{% endfor %}
+<div class="container">
+  <div class="row">
+    <div class="span4">
+      <div class="page-header">
+	<h3>Databag Filters</h3>
+      </div>
+    </div>
+    <div class="span8">
+      <ul class="nav nav-tabs nav-stacked">
+	{% for databag in databags %}
+	<li><a href="{% url 'databag' databag %}">{{databag}}</a></li>
+	{% endfor %}      
+      </ul>
+    </div>
+  </div>
+</div>
 {% endblock %}
