@@ -23,6 +23,7 @@ class ChefQueryManager(object):
     _databag_key = "DATABAG:::%s"
     _nodes_list_key = "NODES"
     _databags_list_key = "DATABAGS"
+    _environments_list_key = "ENVIRONMENTS"
     _roles_list_key = "ROLES"
 
     @classmethod
@@ -78,3 +79,11 @@ class ChefQueryManager(object):
             cache.set(cls._databags_list_key,json.dumps(databags),CACHE_TIMEOUT)
 
         return json.loads(cache.get(cls._databags_list_key))
+
+    @classmethod
+    def list_environments(cls):
+        if not cache.has_key(cls._environments_list_key):
+            environments = list(chef.Environment.list(api=api))
+            cache.set(cls._environments_list_key,json.dumps(environments),CACHE_TIMEOUT)
+
+        return json.loads(cache.get(cls._environments_list_key))

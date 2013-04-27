@@ -8,9 +8,6 @@ from chef_stock.utils import ChefQueryManager
 
 api = chef.autoconfigure()
 
-def index(request):
-    return render_to_response("index.html",{},RequestContext(request))
-
 def roles(request):
     request.breadcrumbs("Roles","#")
     roles = ChefQueryManager.list_roles()
@@ -39,8 +36,25 @@ def databag(request,databag_name):
 
 def nodes(request):
     request.breadcrumbs("Nodes","#")
+
+    cur_environment = request.GET.get("cur_environment",None)
+    cur_role = request.GET.get("cur_role",None)
+
     nodes = ChefQueryManager.list_nodes()
-    return render_to_response("nodes.html",{'nodes':nodes},RequestContext(request))
+    if cur_environment or cur_role:
+        chef_map = dict([(node_name,ChefQueryManager.get_node(node_name)) for node_name in nodes])
+
+
+    if cur_environment:
+        nodes = filter(lambda x: chef_map.get(x,None) and chef_map.get(x)['chef_environment'] == cur_environment,nodes)
+    if cur_role:
+        nodes = filter(lambda x: chef_map.get(x,None) and cur_role in chef_map.get(x)['automatic']['roles'],nodes)
+
+    return render_to_response("nodes.html",
+                              {'nodes':nodes,
+                               'cur_role':cur_role,
+                               'cur_environment':cur_environment},
+                              RequestContext(request))
 
 def node(request,node_name):    
     request.breadcrumbs("Nodes",reverse("nodes"))

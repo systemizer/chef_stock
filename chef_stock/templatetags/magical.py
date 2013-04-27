@@ -20,6 +20,10 @@ def pretty_dict(d):
             output+="<li>%s: %s</li>" % (key,value)
             
     return output_template % output
+
+def multiply(value,value1):
+    return value*value1
     
 
 register.filter('magical_template', magical_template)
+register.filter('multiply', multiply)

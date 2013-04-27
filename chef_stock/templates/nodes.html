@@ -1,13 +1,58 @@
 {% extends "base.html" %}
+{% load magical %}
 
 {% block body %}
 <div class="row">
   <div class="span4">
     <div class="page-header">
       <h3>Node Filters</h3>
+      <form action="" method="GET">
+	<div class="control-group">
+	  <label class="control-label" for="inputPassword">Name</label>
+	  <div class="controls">
+	    <input name="name" placeholder="Name">
+	  </div>
+	</div>
+	<div class="control-group">
+	  <label class="control-label" for="inputPassword">Role</label>
+	  <div class="controls">
+	    <select name="cur_role">
+	      {% if cur_role %}
+	      <option value="{{cur_role}}">{{cur_role}}</option>
+	      {% else %}
+	      <option value=""></option>
+	      {% endif %}
+	      {% for role in ROLES %}
+	      <option value="{{role}}">{{role}}</option>
+	      {% endfor %}
+	    </select>
+	  </div>
+	</div>
+	<div class="control-group">
+	  <label class="control-label" for="inputPassword">Environment</label>
+	  <div class="controls">
+	    <select name="cur_environment">
+	      {% if cur_environment %}
+	      <option value="{{cur_environment}}">{{cur_environment}}</option>
+	      {% else %}
+	      <option value=""></option>
+	      {% endif %}
+	      {% for environment in ENVIRONMENTS %}
+	      <option value="{{environment}}">{{environment}}</option>
+	      {% endfor %}
+	    </select>
+	  </div>
+	</div>
+	<input type="submit" class="btn btn-primary" />
+      </form>
     </div>
   </div>
   <div class="span8">
+    <div class="pull-right">
+      <b>Total Nodes:</b> {{nodes|length}} || <b>Total Price: ${{nodes|length|multiply:30}} per month</b> 
+    </div>
+    <div class="clearfix"></div>
+    <br />
     <ul class="nav nav-tabs nav-stacked">
       {% for node in nodes %}
       <li><a href="{% url 'node' node %}">{{node}}</a></li>
