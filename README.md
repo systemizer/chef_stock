@@ -2,7 +2,7 @@ Chef Stock is a chef-centric WebUI that allows for visualizing chef server data.
 
 To get started you must have a chef workstation setup on your machine. If knife works, just do  the below commands, and you're good to go!
 
-git clone git@github.com:systemizer/chef_stock.git
-cd chef_stock
-pip install -r requirements.txt
-python manage.py runserver
+* git clone git@github.com:systemizer/chef_stock.git
+* cd chef_stock
+* pip install -r requirements.txt
+* python manage.py runserver
