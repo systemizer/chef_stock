@@ -4,7 +4,7 @@ import json
 
 api = chef.autoconfigure()
 
-CACHE_TIMEOUT = 60*60
+CACHE_TIMEOUT = 60*60*12
 
 
 def serialize_chef_object(chef_object):
